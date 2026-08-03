@@ -1,0 +1,21 @@
+# compiled output
+dist/
+node_modules/
+
+# environment
+.env
+.env.local
+.env.production
+
+# logs
+logs/
+*.log
+npm-debug.log*
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# prisma
+prisma/*.db

@@ -1,0 +1,242 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Attachment {
+  createdAt: DateTime!
+  fileName: String!
+  id: String!
+  mimeType: String!
+  size: Int!
+  task: Task
+  taskId: String!
+  uploadedBy: User
+  uploadedById: String!
+  url: String!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type Comment {
+  author: User
+  authorId: String!
+  body: String!
+  createdAt: DateTime!
+  id: String!
+  task: Task
+  taskId: String!
+  updatedAt: DateTime!
+}
+
+input CreateAttachmentInput {
+  fileName: String!
+  mimeType: String!
+  size: Int!
+  taskId: String!
+  url: String!
+}
+
+input CreateCommentInput {
+  body: String!
+  taskId: String!
+}
+
+input CreateProjectInput {
+  color: String
+  description: String
+  name: String!
+}
+
+input CreateSubtaskInput {
+  done: Boolean
+  order: Int
+  taskId: String!
+  title: String!
+}
+
+input CreateTagInput {
+  color: String
+  name: String!
+}
+
+input CreateTaskInput {
+  assigneeIds: [String!]
+  description: String
+  dueDate: DateTime
+  priority: Priority
+  projectId: String!
+  status: Status
+  tagIds: [String!]
+  title: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  addComment(input: CreateCommentInput!): Comment!
+  createAttachment(input: CreateAttachmentInput!): Attachment!
+  createProject(input: CreateProjectInput!): Project!
+  createSubtask(input: CreateSubtaskInput!): Subtask!
+  createTag(input: CreateTagInput!): Tag!
+  createTask(input: CreateTaskInput!): Task!
+  deleteAttachment(id: String!): Attachment!
+  deleteComment(id: String!): Comment!
+  deleteProject(id: String!): Project!
+  deleteSubtask(id: String!): Subtask!
+  deleteTag(id: String!): Tag!
+  deleteTask(id: String!): Task!
+
+  """Sign in and receive a JWT"""
+  login(input: LoginInput!): AuthPayload!
+
+  """Create a new account"""
+  register(input: RegisterInput!): AuthPayload!
+  toggleSubtask(done: Boolean!, id: String!): Subtask!
+  updateProject(id: String!, input: UpdateProjectInput!): Project!
+  updateSubtask(id: String!, input: UpdateSubtaskInput!): Subtask!
+  updateTask(id: String!, input: UpdateTaskInput!): Task!
+  updateTaskStatus(id: String!, status: Status!): Task!
+}
+
+"""Urgency level of a task"""
+enum Priority {
+  HIGH
+  LOW
+  MEDIUM
+  URGENT
+}
+
+type Project {
+  color: String
+  createdAt: DateTime!
+  description: String
+  id: String!
+  name: String!
+  owner: User
+  ownerId: String!
+  tasks: [Task!]
+  updatedAt: DateTime!
+}
+
+type Query {
+  health: String!
+  me: User!
+  project(id: String!): Project!
+  projects(skip: Int = 0, take: Int = 50): [Project!]!
+  tags: [Tag!]!
+  task(id: String!): Task!
+  tasks(assigneeId: String, priority: Priority, projectId: String, search: String, skip: Int = 0, status: Status, take: Int = 50): [Task!]!
+  users(skip: Int = 0, take: Int = 50): [User!]!
+}
+
+input RegisterInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+"""Lifecycle stage of a task"""
+enum Status {
+  BACKLOG
+  DONE
+  IN_PROGRESS
+  IN_REVIEW
+  TODO
+}
+
+type Subscription {
+  """Emitted when a comment is added to a task"""
+  commentAdded(taskId: String): Comment!
+
+  """Emitted when a task is created"""
+  taskAdded(projectId: String): Task!
+
+  """Emitted when a task is deleted"""
+  taskDeleted(projectId: String): Task!
+
+  """Emitted when a task is updated (incl. status changes)"""
+  taskUpdated(projectId: String): Task!
+}
+
+type Subtask {
+  createdAt: DateTime!
+  done: Boolean!
+  id: String!
+  order: Int!
+  task: Task
+  taskId: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type Tag {
+  color: String!
+  id: String!
+  name: String!
+  tasks: [Task!]
+}
+
+type Task {
+  assignees: [User!]
+  attachments: [Attachment!]
+  comments: [Comment!]
+  createdAt: DateTime!
+  createdBy: User
+  createdById: String!
+  description: String
+  dueDate: DateTime
+  id: String!
+  order: Int!
+  priority: Priority!
+  project: Project
+  projectId: String!
+  status: Status!
+  subtasks: [Subtask!]
+  tags: [Tag!]
+  title: String!
+  updatedAt: DateTime!
+}
+
+input UpdateProjectInput {
+  color: String
+  description: String
+  name: String
+}
+
+input UpdateSubtaskInput {
+  done: Boolean
+  order: Int
+  title: String
+}
+
+input UpdateTaskInput {
+  assigneeIds: [String!]
+  description: String
+  dueDate: DateTime
+  order: Int
+  priority: Priority
+  status: Status
+  tagIds: [String!]
+  title: String
+}
+
+type User {
+  avatarUrl: String
+  createdAt: DateTime!
+  email: String!
+  id: String!
+  name: String!
+  ownedProjects: [Project!]
+  updatedAt: DateTime!
+}
