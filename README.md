@@ -150,4 +150,4 @@ query {
 
 ## License
 
-Private project.
+This is a public project.
