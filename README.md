@@ -147,7 +147,3 @@ query {
   }
 }
 ```
-
-## License
-
-This is a public project.
